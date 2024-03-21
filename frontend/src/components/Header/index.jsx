@@ -27,7 +27,9 @@ function Header() {
         className="flex items-center w-12 h-12 rounded-2xl"
       >
         <img src="/logo.jpg" alt="Logo" className="w-12 h-12 rounded-2xl" />
-        {/* <span className="ml-2 text-xl font-bold">App Logo</span> */}
+        <span className="ml-2 text-xl font-bold whitespace-nowrap overflow-ellipsis">
+          Health Tracker
+        </span>
       </button>
 
       <nav className="flex space-x-4">
@@ -37,15 +39,7 @@ function Header() {
             isActive ? "text-blue-500" : "text-[#434343]"
           }
         >
-          Dashboard
-        </NavLink>
-        <NavLink
-          to="/messaging"
-          className={({ isActive }) =>
-            isActive ? "text-blue-500" : "text-[#434343]"
-          }
-        >
-          Messaging
+          Home
         </NavLink>
         <NavLink
           to="/video-calls"
@@ -55,6 +49,16 @@ function Header() {
         >
           Video Calls
         </NavLink>
+
+        <NavLink
+          to="/messaging"
+          className={({ isActive }) =>
+            isActive ? "text-blue-500" : "text-[#434343]"
+          }
+        >
+          Messaging
+        </NavLink>
+
         <NavLink
           to="/health-tracking"
           className={({ isActive }) =>
