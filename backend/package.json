@@ -1,0 +1,13 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "type": "module",
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "livekit-server-sdk": "^2.1.2",
+    "mongoose": "^8.2.3"
+  }
+}
