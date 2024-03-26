@@ -1,8 +1,10 @@
 import { MongoClient, ServerApiVersion } from "mongodb";
 import dotenv from "dotenv";
 import express from "express";
+import livekitRoutes from "./routes/livekitRoutes.js";
 dotenv.config();
 
+const app = express();
 const uri = process.env.MONGODB_URI;
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
 const client = new MongoClient(uri, {
@@ -29,3 +31,10 @@ async function run() {
 }
 run().catch(console.dir);
 
+app.use("/livekit", livekitRoutes);
+
+// Other server setup and routes...
+
+app.listen(8000, () => {
+  console.log("Server running on port 8000");
+});
