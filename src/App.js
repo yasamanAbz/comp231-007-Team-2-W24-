@@ -1,0 +1,31 @@
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Home from "components/Home";
+import Messaging from "components/Messaging";
+import VideoCalls from "components/VideoCalls";
+import HealthTracking from "components/HealthTracking";
+import Appointments from "components/Appointments";
+import Header from "components/Header";
+import Footer from "components/Footer";
+
+import "./index.css";
+
+function App() {
+  return (
+    <Router>
+      <div className="flex flex-col h-screen">
+        <Header />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/messaging" element={<Messaging />} />
+          <Route path="/video-calls" element={<VideoCalls />} />
+          <Route path="/health-tracking" element={<HealthTracking />} />
+          <Route path="/appointments" element={<Appointments />} />
+        </Routes>
+        <Footer />
+      </div>
+    </Router>
+  );
+}
+
+export default App;
