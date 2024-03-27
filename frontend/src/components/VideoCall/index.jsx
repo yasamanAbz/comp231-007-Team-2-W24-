@@ -1,37 +1,61 @@
 import React from "react";
-import { useRoom, VideoRenderer } from "@livekit/react-core";
+import "@livekit/components-styles";
+import { Track } from "livekit-client";
 
+import {
+  ControlBar,
+  GridLayout,
+  LiveKitRoom,
+  ParticipantTile,
+  RoomAudioRenderer,
+  useTracks,
+  ConnectionState,
+  ParticipantName,
+} from "@livekit/components-react";
+// 1️⃣ Import the react hook.
+const serverUrl = process.env.REACT_APP_LIVEKIT_SERVER_URL;
 const VideoCall = ({ token, roomName }) => {
-  const { room, participants, localParticipant, isConnecting, error } = useRoom(
-    { url: process.env.REACT_APP_LIVEKIT_SERVER_URL, token }
-  );
-
-  if (isConnecting) {
-    return <div>Connecting...</div>;
-  }
-
-  if (error) {
-    return <div>Error: {error.message}</div>;
-  }
-
   return (
-    <div>
-      <h2>Room: {roomName}</h2>
-      <div>
-        <h3>Local Participant</h3>
-        {localParticipant && <VideoRenderer participant={localParticipant} />}
+    <>
+      {/* Header: Call Status, Participants' Names, and Duration */}
+      <div className="flex items-center justify-between p-4 bg-gray-200">
+        <span className="text-sm font-semibold">
+          {/* <ConnectionState /> */}
+        </span>
+        <span className="text-lg font-bold">{/* <ParticipantName /> */}</span>
+        <span className="text-sm font-semibold">00:00</span>
       </div>
-      <div>
-        <h3>Participants</h3>
-        {participants.map((participant) => (
-          <div key={participant.sid}>
-            <h4>{participant.identity}</h4>
-            <VideoRenderer participant={participant} />
-          </div>
-        ))}
+
+      {/* Main Video Feed */}
+      <div className="flex items-center justify-center flex-grow bg-gray-300">
+        <LiveKitRoom
+          video={true}
+          audio={true}
+          token={token}
+          serverUrl={serverUrl}
+          data-lk-theme="default"
+        >
+          <MyVideoConference />
+          <RoomAudioRenderer />
+          <ControlBar />
+        </LiveKitRoom>
       </div>
-    </div>
+    </>
   );
 };
+function MyVideoConference() {
+  const tracks = useTracks(
+    [
+      { source: Track.Source.Camera, withPlaceholder: true },
+      { source: Track.Source.ScreenShare, withPlaceholder: false },
+    ],
+    { onlySubscribed: false }
+  );
+  return (
+    <GridLayout tracks={tracks}>
+      <ParticipantTile />
+    </GridLayout>
+  );
+}
 
 export default VideoCall;
