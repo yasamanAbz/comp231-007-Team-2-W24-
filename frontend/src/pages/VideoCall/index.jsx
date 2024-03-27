@@ -5,7 +5,7 @@ const VideoCallPage = () => {
   const [token, setToken] = useState("");
 
   useEffect(() => {
-    const backendUrl = process.env.BACKEND_URL;
+    const backendUrl = process.env.REACT_APP_BACKEND_URL;
     // Fetch the token from your server for the current user
     // and set it in the state
     fetch(`${backendUrl}/livekit/token?room=my-room&identity=user1`)
