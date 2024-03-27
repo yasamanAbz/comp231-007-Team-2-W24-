@@ -9,5 +9,9 @@
     "express": "^4.19.2",
     "livekit-server-sdk": "^2.1.2",
     "mongoose": "^8.2.3"
+  },
+  "scripts": {
+    "start": "node server.js"
   }
+  
 }

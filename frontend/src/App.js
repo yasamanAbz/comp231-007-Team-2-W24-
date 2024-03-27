@@ -2,7 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "components/Home";
 import Messaging from "components/Messaging";
-import VideoCalls from "components/VideoCalls";
+import VideoCall from "pages/VideoCall";
 import HealthTracking from "components/HealthTracking";
 import Appointments from "components/Appointments";
 import Header from "components/Header";
@@ -18,7 +18,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/messaging" element={<Messaging />} />
-          <Route path="/video-calls" element={<VideoCalls />} />
+          <Route path="/video-calls" element={<VideoCall />} />
           <Route path="/health-tracking" element={<HealthTracking />} />
           <Route path="/appointments" element={<Appointments />} />
         </Routes>

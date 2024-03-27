@@ -1,7 +1,7 @@
 // controllers/livekitController.js
 import { generateToken } from "../config/livekit.js";
 
-export const getToken = (req, res) => {
+export const getToken = async (req, res) => {
   const { room, identity } = req.query;
 
   if (!room || !identity) {
@@ -9,7 +9,7 @@ export const getToken = (req, res) => {
   }
 
   try {
-    const token = generateToken(room, identity);
+    const token = await generateToken(room, identity);
     res.json({ token });
   } catch (error) {
     res.status(500).json({ error: "Error generating token" });

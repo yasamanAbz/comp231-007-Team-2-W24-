@@ -6,14 +6,13 @@ const livekitConfig = {
   apiSecret: process.env.LIVEKIT_API_SECRET,
 };
 
-export const generateToken = (room, identity) => {
+export const generateToken = async (room, identity) => {
   const at = new AccessToken(livekitConfig.apiKey, livekitConfig.apiSecret, {
     identity,
   });
 
   at.addGrant({ roomJoin: true, room });
 
-  const token = at.toJwt();
-
+  const token = await at.toJwt();
   return token;
 };
