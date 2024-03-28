@@ -1,7 +1,6 @@
 import React from "react";
 import "@livekit/components-styles";
 import { Track } from "livekit-client";
-
 import {
   ControlBar,
   GridLayout,
@@ -9,40 +8,45 @@ import {
   ParticipantTile,
   RoomAudioRenderer,
   useTracks,
+  useLiveKitRoom,
   ConnectionState,
-  ParticipantName,
 } from "@livekit/components-react";
-// 1️⃣ Import the react hook.
-const serverUrl = process.env.REACT_APP_LIVEKIT_SERVER_URL;
-const VideoCall = ({ token, roomName }) => {
-  return (
-    <>
-      {/* Header: Call Status, Participants' Names, and Duration */}
-      <div className="flex items-center justify-between p-4 bg-gray-200">
-        <span className="text-sm font-semibold">
-          {/* <ConnectionState /> */}
-        </span>
-        <span className="text-lg font-bold">{/* <ParticipantName /> */}</span>
-        <span className="text-sm font-semibold">00:00</span>
-      </div>
 
-      {/* Main Video Feed */}
+const serverUrl = process.env.REACT_APP_LIVEKIT_SERVER_URL;
+
+const VideoCall = ({ token }) => {
+  const { room } = useLiveKitRoom();
+  return (
+    <div className="flex flex-col">
       <div className="flex items-center justify-center flex-grow bg-gray-300">
-        <LiveKitRoom
-          video={true}
-          audio={true}
-          token={token}
-          serverUrl={serverUrl}
-          data-lk-theme="default"
-        >
-          <MyVideoConference />
-          <RoomAudioRenderer />
-          <ControlBar />
-        </LiveKitRoom>
+        {room && (
+          <LiveKitRoom
+            video={true}
+            audio={true}
+            connect={true}
+            token={token}
+            serverUrl={serverUrl}
+            data-lk-theme="default"
+          >
+            <div className="flex items-center justify-between p-4 bg-gray-200">
+              <span className="text-sm font-semibold">
+                <ConnectionState />
+              </span>
+              <span className="text-lg font-bold"></span>
+
+              <span className="text-sm font-semibold"></span>
+            </div>
+            <MyVideoConference />
+            <RoomAudioRenderer />
+            <ControlBar />
+          </LiveKitRoom>
+        )}
       </div>
-    </>
+      <div className="flex items-center justify-around p-4 bg-gray-100 h-9"></div>
+    </div>
   );
 };
+
 function MyVideoConference() {
   const tracks = useTracks(
     [
