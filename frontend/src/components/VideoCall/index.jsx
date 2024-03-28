@@ -1,37 +1,65 @@
 import React from "react";
-import { useRoom, VideoRenderer } from "@livekit/react-core";
+import "@livekit/components-styles";
+import { Track } from "livekit-client";
+import {
+  ControlBar,
+  GridLayout,
+  LiveKitRoom,
+  ParticipantTile,
+  RoomAudioRenderer,
+  useTracks,
+  useLiveKitRoom,
+  ConnectionState,
+} from "@livekit/components-react";
 
-const VideoCall = ({ token, roomName }) => {
-  const { room, participants, localParticipant, isConnecting, error } = useRoom(
-    { url: process.env.REACT_APP_LIVEKIT_SERVER_URL, token }
-  );
+const serverUrl = process.env.REACT_APP_LIVEKIT_SERVER_URL;
 
-  if (isConnecting) {
-    return <div>Connecting...</div>;
-  }
-
-  if (error) {
-    return <div>Error: {error.message}</div>;
-  }
-
+const VideoCall = ({ token }) => {
+  const { room } = useLiveKitRoom();
   return (
-    <div>
-      <h2>Room: {roomName}</h2>
-      <div>
-        <h3>Local Participant</h3>
-        {localParticipant && <VideoRenderer participant={localParticipant} />}
+    <div className="flex flex-col">
+      <div className="flex items-center justify-center flex-grow bg-gray-300">
+        {room && (
+          <LiveKitRoom
+            video={true}
+            audio={true}
+            connect={true}
+            token={token}
+            serverUrl={serverUrl}
+            data-lk-theme="default"
+          >
+            <div className="flex items-center justify-between p-4 bg-gray-200">
+              <span className="text-sm font-semibold">
+                <ConnectionState />
+              </span>
+              <span className="text-lg font-bold"></span>
+
+              <span className="text-sm font-semibold"></span>
+            </div>
+            <MyVideoConference />
+            <RoomAudioRenderer />
+            <ControlBar />
+          </LiveKitRoom>
+        )}
       </div>
-      <div>
-        <h3>Participants</h3>
-        {participants.map((participant) => (
-          <div key={participant.sid}>
-            <h4>{participant.identity}</h4>
-            <VideoRenderer participant={participant} />
-          </div>
-        ))}
-      </div>
+      <div className="flex items-center justify-around p-4 bg-gray-100 h-9"></div>
     </div>
   );
 };
+
+function MyVideoConference() {
+  const tracks = useTracks(
+    [
+      { source: Track.Source.Camera, withPlaceholder: true },
+      { source: Track.Source.ScreenShare, withPlaceholder: false },
+    ],
+    { onlySubscribed: false }
+  );
+  return (
+    <GridLayout tracks={tracks}>
+      <ParticipantTile />
+    </GridLayout>
+  );
+}
 
 export default VideoCall;
