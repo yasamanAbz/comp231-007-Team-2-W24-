@@ -2,8 +2,10 @@ import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useOutsideClick from "helpers/hooks/useOutsideClick";
 import { NavLink } from "react-router-dom";
+import AuthPopup from "../Popups/Auth";
 function Header() {
   const navigate = useNavigate();
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
   const popupRef = useRef(null); // Create a ref for the popup
 
@@ -19,7 +21,11 @@ function Header() {
   const handleUserIconClick = () => {
     setShowPopup(!showPopup);
   };
-
+  const handleLogout = () => {
+    // Logic to handle logout
+    setIsAuthenticated(false);
+    setShowPopup(false);
+  };
   return (
     <header className="flex items-center justify-between p-6">
       <button
@@ -82,20 +88,17 @@ function Header() {
           className="flex items-center cursor-pointer"
         >
           <img src="/userIcon.jpg" alt="User Icon" className="w-6 h-auto" />
+          <span className="p-2 text-sm">
+            {!isAuthenticated ? `Hello, {userName}` : "Sign in/Register"}
+          </span>
         </button>
 
         {showPopup && (
-          <div
-            ref={popupRef}
-            className="absolute right-0 p-2 mt-2 bg-white rounded-lg shadow-lg w-fit top-full"
-          >
-            <p className="p-2 overflow-hidden cursor-pointer whitespace-nowrap overflow-ellipsis hover:bg-gray-100">
-              Account Settings
-            </p>
-            <p className="p-2 overflow-hidden cursor-pointer whitespace-nowrap overflow-ellipsis hover:bg-gray-100">
-              Log Out
-            </p>
-          </div>
+          <AuthPopup
+            isAuthenticated={isAuthenticated}
+            onClose={handleLogout}
+            popupRef={popupRef}
+          />
         )}
       </div>
     </header>
