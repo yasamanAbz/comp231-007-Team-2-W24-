@@ -1,12 +1,12 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Home from "components/Home";
-import Messaging from "components/Messaging";
-import VideoCall from "pages/VideoCall";
-import HealthTracking from "components/HealthTracking";
-import Appointments from "components/Appointments";
-import Header from "components/Header";
-import Footer from "components/Footer";
+import Home from "./components/Home/index.jsx";
+import Messaging from "./components/Messaging/index.jsx";
+import VideoCall from "./pages/VideoCall/index.jsx";
+import HealthTracking from "./components/HealthTracking/index.jsx";
+import Appointments from "./components/Appointments/index.jsx";
+import Header from "./components/Header/index.jsx";
+import Footer from "./components/Footer/index.jsx";
 
 import "./index.css";
 
