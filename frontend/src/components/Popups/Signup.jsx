@@ -3,19 +3,20 @@ import { useAuth } from "../../contexts/AuthContext";
 
 // The signup form component
 const SignupForm = () => {
+  const backendUrl = process.env.REACT_APP_BACKEND_URL;
   const [email, setEmail] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
-  const [messageColor, setMessageColor] = useState("green");
+  const [messageColor, setMessageColor] = useState("[#187000]");
   const { login } = useAuth();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     try {
-      const response = await fetch("http://localhost:8081/api/auth/register", {
+      const response = await fetch(`${backendUrl}/api/auth/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -28,7 +29,7 @@ const SignupForm = () => {
       if (response.ok) {
         login(data.token);
         setMessage("User added successfully!");
-        setMessageColor("green");
+        setMessageColor("[#187000]");
         // Clear the input fields
         setEmail("");
         setFirstName("");
