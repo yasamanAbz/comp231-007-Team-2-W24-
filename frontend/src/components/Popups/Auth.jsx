@@ -8,6 +8,7 @@ const AuthPopup = ({ isAuthenticated, onClose, popupRef }) => {
     <div
       ref={popupRef}
       className="absolute right-0 p-2 mt-2 bg-white rounded-lg shadow-lg w-fit top-full"
+      style={{ zIndex: 1 }}
     >
       {isAuthenticated ? (
         <>
