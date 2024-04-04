@@ -8,6 +8,7 @@ function Messaging() {
   const [message, setMessage] = useState("");
   const [healthTipsOptedIn, setHealthTipsOptedIn] = useState(false);
   const [reminderSet, setReminderSet] = useState(false);
+  const [messageSent, setMessageSent] = useState(false);
 
   // Function to handle sending a message
   const sendMessage = () => {
@@ -16,6 +17,8 @@ function Messaging() {
     console.log("Message sent:", message);
     // Clear the message input after sending
     setMessage("");
+    // Indicate that the message has been sent
+    setMessageSent(true);
   };
 
   // Function to handle attaching media files
@@ -87,7 +90,7 @@ function Messaging() {
               className="block w-full px-4 py-2 mt-4 text-white bg-[#004570] rounded-md hover:bg-[#003252] focus:outline-none focus:bg-[#003252]"
               onClick={sendMessage}
             >
-              Send Message
+              {messageSent ? "Message Sent" : "Send Message"}
             </button>
           </div>
         </div>
