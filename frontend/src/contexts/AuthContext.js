@@ -9,15 +9,18 @@ export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(() => {
     return localStorage.getItem("token");
   });
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(() => {
+    const savedUser = localStorage.getItem("user");
+    return savedUser ? JSON.parse(savedUser) : null;
+  });
   useEffect(() => {
-    // On component mount, we check if we have a token in localStorage
     const token = localStorage.getItem("token");
     setIsAuthenticated(!!token);
   }, [token]);
 
   const login = (token, userData) => {
     localStorage.setItem("token", token);
+    localStorage.setItem("user", JSON.stringify(userData));
     setToken(token);
     setUser(userData);
     setIsAuthenticated(true);
@@ -25,6 +28,7 @@ export const AuthProvider = ({ children }) => {
 
   const logout = () => {
     localStorage.removeItem("token");
+    localStorage.removeItem("user");
     setToken(null);
     setUser(null);
     setIsAuthenticated(false);
