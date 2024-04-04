@@ -3,12 +3,13 @@ import { useNavigate } from "react-router-dom";
 import useOutsideClick from "helpers/hooks/useOutsideClick";
 import { NavLink } from "react-router-dom";
 import AuthPopup from "../Popups/Auth";
+import { useAuth } from "../../contexts/AuthContext";
+
 function Header() {
   const navigate = useNavigate();
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
   const popupRef = useRef(null); // Create a ref for the popup
-
+  const { isAuthenticated, logout, user } = useAuth();
   useOutsideClick(popupRef, () => {
     if (showPopup) {
       setShowPopup(false); // Close the popup when clicking outside
@@ -23,7 +24,7 @@ function Header() {
   };
   const handleLogout = () => {
     // Logic to handle logout
-    setIsAuthenticated(false);
+    logout();
     setShowPopup(false);
   };
   return (
@@ -89,7 +90,7 @@ function Header() {
         >
           <img src="/userIcon.jpg" alt="User Icon" className="w-6 h-auto" />
           <span className="p-2 text-sm">
-            {!isAuthenticated ? `Hello, {userName}` : "Sign in/Register"}
+            {isAuthenticated ? `Hello, ${user?.firstName}` : "Sign in/Register"}
           </span>
         </button>
 

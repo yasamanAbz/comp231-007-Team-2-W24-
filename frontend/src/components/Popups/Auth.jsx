@@ -1,9 +1,9 @@
 // AuthPopup.js
 import React, { useState } from "react";
 import Signup from "./Signup";
+import SignInForm from "./SignIn";
 const AuthPopup = ({ isAuthenticated, onClose, popupRef }) => {
   const [showSignIn, setShowSignIn] = useState(true);
-
   return (
     <div
       ref={popupRef}
@@ -25,19 +25,7 @@ const AuthPopup = ({ isAuthenticated, onClose, popupRef }) => {
         <div className="p-4 bg-white rounded-lg ">
           <h3 className="mb-4 text-lg font-semibold text-center">Sign In</h3>
           <div className="flex flex-col space-y-2">
-            <input
-              type="email"
-              placeholder="Email"
-              className="block p-2 m-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#004570]"
-            />
-            <input
-              type="password"
-              placeholder="Password"
-              className="block p-2 m-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#004570]"
-            />
-            <button className="block p-2 m-2 text-white bg-[#004570] rounded-lg hover:bg-[#004570]">
-              Sign In
-            </button>
+            <SignInForm />
             <p
               className="p-2 text-center text-[#004570] cursor-pointer"
               onClick={() => setShowSignIn(false)}
