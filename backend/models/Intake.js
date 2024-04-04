@@ -1,20 +1,14 @@
 const mongoose = require('mongoose');
 
-// Define the schema for dietary intake
 const intakeSchema = new mongoose.Schema({
-  foodItem: { type: String, required: true },
-  quantity: { type: Number, required: true },
-  calories: { type: Number, required: true },
+  foodItem: String,
+  quantity: Number,
+  calories: Number,
   date: { type: Date, default: Date.now },
   // Optional nutritional information
-  nutritionalInfo: {
-    fat: { type: Number, default: null },
-    protein: { type: Number, default: null },
-    carbohydrates: { type: Number, default: null },
-  },
+  fat: Number,
+  protein: Number,
+  carbohydrates: Number,
 });
 
-// Create a model using the schema
-const Intake = mongoose.model('Intake', intakeSchema);
-
-module.exports = Intake;
+module.exports = mongoose.model('Intake', intakeSchema);
