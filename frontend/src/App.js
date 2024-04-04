@@ -7,24 +7,27 @@ import HealthTracking from "components/HealthTracking";
 import Appointments from "components/Appointments";
 import Header from "components/Header";
 import Footer from "components/Footer";
+import { AuthProvider } from "./contexts/AuthContext";
 
 import "./index.css";
 
 function App() {
   return (
-    <Router>
-      <div className="flex flex-col h-screen">
-        <Header />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/messaging" element={<Messaging />} />
-          <Route path="/video-calls" element={<VideoCall />} />
-          <Route path="/health-tracking" element={<HealthTracking />} />
-          <Route path="/appointments" element={<Appointments />} />
-        </Routes>
-        <Footer />
-      </div>
-    </Router>
+    <AuthProvider>
+      <Router>
+        <div className="flex flex-col h-screen">
+          <Header />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/messaging" element={<Messaging />} />
+            <Route path="/video-calls" element={<VideoCall />} />
+            <Route path="/health-tracking" element={<HealthTracking />} />
+            <Route path="/appointments" element={<Appointments />} />
+          </Routes>
+          <Footer />
+        </div>
+      </Router>
+    </AuthProvider>
   );
 }
 
