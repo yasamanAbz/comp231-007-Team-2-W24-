@@ -1,90 +1,93 @@
-// AppointmentScheduler.js
 import React, { useState } from 'react';
 
-function AppointmentScheduler() {
-  // State for managing appointments
-  const [appointments, setAppointments] = useState([]);
-  // State for managing form data
-  const [formData, setFormData] = useState({
-    date: '',
-    time: '',
-    reason: ''
-  });
+// Tailwind CSS classes
+const inputClasses = "appearance-none border border-gray-300 rounded w-full py-2 px-3 mb-3 leading-tight focus:outline-none focus:border-blue-500";
+const buttonClasses = "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline";
 
-  // Function to handle form submission
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Add the new appointment to the appointments array
-    setAppointments([...appointments, formData]);
-    // Reset form data
-    setFormData({
-      date: '',
-      time: '',
-      reason: ''
-    });
+const AppointmentScheduler = () => {
+  // State variables for appointment scheduling
+  const [appointmentDate, setAppointmentDate] = useState('');
+  const [appointmentTime, setAppointmentTime] = useState('');
+  const [appointmentReason, setAppointmentReason] = useState('');
+  const [upcomingAppointments, setUpcomingAppointments] = useState([]);
+
+  // Function to handle appointment submission
+  const handleAppointmentSubmission = (event) => {
+    event.preventDefault();
+    if (appointmentDate && appointmentTime && appointmentReason) {
+      // Adding appointment to upcomingAppointments array
+      const newAppointment = {
+        date: appointmentDate,
+        time: appointmentTime,
+        reason: appointmentReason
+      };
+      setUpcomingAppointments([...upcomingAppointments, newAppointment]);
+      // Resetting form fields
+      setAppointmentDate('');
+      setAppointmentTime('');
+      setAppointmentReason('');
+    } else {
+      alert("Please fill in all fields");
+    }
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <h1 className="text-2xl font-bold mb-4">Appointment Scheduler</h1>
-      {/* Form for scheduling appointments */}
-      <form onSubmit={handleSubmit} className="mb-8">
-        <div className="flex flex-col mb-4">
-          <label htmlFor="date" className="text-lg mb-2">Appointment Date:</label>
+    <div className="container mx-auto p-5">
+      <h1 className="text-2xl font-bold mb-5">Appointment Scheduler</h1>
+
+      {/* Appointment Scheduling Form */}
+      <form onSubmit={handleAppointmentSubmission} className="mb-8">
+        <label className="block text-gray-700 text-sm font-bold mb-2">
+          Appointment Date:
           <input
             type="date"
-            id="date"
-            className="border rounded px-4 py-2"
-            value={formData.date}
-            onChange={(e) => setFormData({ ...formData, date: e.target.value })}
-            required
+            className={inputClasses}
+            value={appointmentDate}
+            onChange={(e) => setAppointmentDate(e.target.value)}
           />
-        </div>
-        <div className="flex flex-col mb-4">
-          <label htmlFor="time" className="text-lg mb-2">Appointment Time:</label>
+        </label>
+        <label className="block text-gray-700 text-sm font-bold mb-2">
+          Appointment Time:
           <input
             type="time"
-            id="time"
-            className="border rounded px-4 py-2"
-            value={formData.time}
-            onChange={(e) => setFormData({ ...formData, time: e.target.value })}
-            required
+            className={inputClasses}
+            value={appointmentTime}
+            onChange={(e) => setAppointmentTime(e.target.value)}
           />
-        </div>
-        <div className="flex flex-col mb-4">
-          <label htmlFor="reason" className="text-lg mb-2">Reason for Appointment:</label>
-          <textarea
-            id="reason"
-            className="border rounded px-4 py-2 h-24"
-            value={formData.reason}
-            onChange={(e) => setFormData({ ...formData, reason: e.target.value })}
-            required
-          ></textarea>
-        </div>
-        <button type="submit" className="bg-blue-500 text-white px-6 py-2 rounded">Schedule Appointment</button>
+        </label>
+        <label className="block text-gray-700 text-sm font-bold mb-2">
+          Reason for Appointment:
+          <input
+            type="text"
+            className={inputClasses}
+            value={appointmentReason}
+            onChange={(e) => setAppointmentReason(e.target.value)}
+          />
+        </label>
+        <button type="submit" className={buttonClasses}>
+          Schedule Appointment
+        </button>
       </form>
 
-      {/* Display upcoming appointments */}
+      {/* Display Upcoming Appointments */}
       <div>
-        <h2 className="text-xl font-bold mb-4">Upcoming Appointments</h2>
-        {appointments.length > 0 ? (
-          <ul>
-            {appointments.map((appointment, index) => (
-              <li key={index} className="border rounded px-4 py-2 mb-2">
-                <strong>Date:</strong> {appointment.date}<br />
-                <strong>Time:</strong> {appointment.time}<br />
-                <strong>Reason:</strong> {appointment.reason}<br />
-                <button className="text-red-500 mt-2">Cancel Appointment</button>
-                <button className="text-blue-500 mt-2 ml-2">Reschedule Appointment</button>
+        <h2 className="text-xl font-bold mb-3">Upcoming Appointments</h2>
+        {upcomingAppointments.length === 0 ? (
+          <p>No appointments scheduled</p>
+        ) : (
+          <ul className="list-disc pl-5">
+            {upcomingAppointments.map((appointment, index) => (
+              <li key={index} className="mb-2">
+                <span className="font-bold">Date:</span> {appointment.date},{' '}
+                <span className="font-bold">Time:</span> {appointment.time},{' '}
+                <span className="font-bold">Reason:</span> {appointment.reason}
               </li>
             ))}
           </ul>
-        ) : (
-          <p>No upcoming appointments.</p>
         )}
       </div>
     </div>
   );
-}
+};
 
 export default AppointmentScheduler;
