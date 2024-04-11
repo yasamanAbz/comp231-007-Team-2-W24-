@@ -1,37 +1,33 @@
-// AppointmentForm.js
 import React, { useState } from 'react';
 
-function AppointmentForm({ onSubmit }) {
-  const [formData, setFormData] = useState({
-    date: '',
-    time: '',
-    reason: ''
-  });
+function AppointmentForm({ onSchedule }) {
+  const [date, setDate] = useState('');
+  const [time, setTime] = useState('');
+  const [reason, setReason] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSubmit(formData);
-    // Reset form data after submission
-    setFormData({
-      date: '',
-      time: '',
-      reason: ''
-    });
-  };
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prevState => ({
-      ...prevState,
-      [name]: value
-    }));
+    if (!date || !time || !reason) return;
+    onSchedule({ date, time, reason });
+    setDate('');
+    setTime('');
+    setReason('');
   };
 
   return (
     <form onSubmit={handleSubmit}>
-      <input type="date" name="date" value={formData.date} onChange={handleChange} />
-      <input type="time" name="time" value={formData.time} onChange={handleChange} />
-      <textarea name="reason" value={formData.reason} onChange={handleChange} />
+      <div>
+        <label htmlFor="date">Date:</label>
+        <input type="date" id="date" value={date} onChange={(e) => setDate(e.target.value)} required />
+      </div>
+      <div>
+        <label htmlFor="time">Time:</label>
+        <input type="time" id="time" value={time} onChange={(e) => setTime(e.target.value)} required />
+      </div>
+      <div>
+        <label htmlFor="reason">Reason:</label>
+        <input type="text" id="reason" value={reason} onChange={(e) => setReason(e.target.value)} required />
+      </div>
       <button type="submit">Schedule Appointment</button>
     </form>
   );
