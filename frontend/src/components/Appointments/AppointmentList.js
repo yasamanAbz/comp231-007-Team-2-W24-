@@ -1,15 +1,27 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 
-const AppointmentList = ({ appointments }) => {
+const AppointmentList = () => {
+  const [appointments, setAppointments] = useState([]);
+
+  useEffect(() => {
+    axios.get('/api/appointments')
+      .then(response => {
+        setAppointments(response.data);
+      })
+      .catch(error => {
+        console.error('Error fetching appointments:', error);
+      });
+  }, []);
+
+  // Render appointments
   return (
     <div>
       <h2>Upcoming Appointments</h2>
       <ul>
         {appointments.map(appointment => (
           <li key={appointment.id}>
-            <strong>Date:</strong> {appointment.date}<br />
-            <strong>Time:</strong> {appointment.time}<br />
-            <strong>Reason:</strong> {appointment.reason}<br />
+            Date: {appointment.date}, Time: {appointment.time}, Reason: {appointment.reason}
           </li>
         ))}
       </ul>
