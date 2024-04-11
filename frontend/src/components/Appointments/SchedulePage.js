@@ -1,34 +1,31 @@
-import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Home from "components/Home";
-import Messaging from "components/Messaging";
-import VideoCall from "pages/VideoCall";
-import HealthTracking from "components/HealthTracking";
-import Appointments from "components/Appointments";
-import Header from "components/Header";
-import Footer from "components/Footer";
-import { AuthProvider } from "./contexts/AuthContext";
+// SchedulePage.js
+import React, { useState } from 'react';
+import AppointmentForm from './AppointmentForm';
+import AppointmentList from './AppointmentList';
+import AppointmentActions from './AppointmentActions';
 
-import "./index.css";
+function SchedulePage() {
+  const [appointments, setAppointments] = useState([]);
 
-function App() {
+  const handleSchedule = (newAppointment) => {
+    setAppointments([...appointments, newAppointment]);
+  };
+
+  const handleCancel = () => {
+    // Logic to cancel appointment
+  };
+
+  const handleReschedule = () => {
+    // Logic to reschedule appointment
+  };
+
   return (
-    <AuthProvider>
-      <Router>
-        <div className="flex flex-col h-screen">
-          <Header />
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/messaging" element={<Messaging />} />
-            <Route path="/video-calls" element={<VideoCall />} />
-            <Route path="/health-tracking" element={<HealthTracking />} />
-            <Route path="/appointments" element={<Appointments />} />
-          </Routes>
-          <Footer />
-        </div>
-      </Router>
-    </AuthProvider>
+    <div>
+      <AppointmentForm onSchedule={handleSchedule} />
+      <AppointmentList appointments={appointments} />
+      <AppointmentActions onCancel={handleCancel} onReschedule={handleReschedule} />
+    </div>
   );
 }
 
-export default App;
+export default SchedulePage;
