@@ -4,12 +4,14 @@ import mongoose from "mongoose";
 import "dotenv/config";
 import livekitRoutes from "./routes/livekitRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
+import appointmentRoutes from "./routes/appointmentsRoutes.js";
 const app = express();
 app.use(express.json());
 
 app.use(cors());
 app.use("/livekit", livekitRoutes);
 app.use("/api/auth", authRoutes);
+app.use("/appointments", appointmentRoutes);
 app.get("/", (req, res) => {
   res.send("<h1>Hello, Express.js Server!</h1>");
 });
