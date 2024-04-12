@@ -76,7 +76,7 @@ function AppointmentForm({ onSubmitAppointment, selectedAppointment }) {
         </div>
         <button
           type="submit"
-          className="w-full px-4 py-2 font-semibold text-white bg-indigo-500 rounded-md hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+          className="w-full px-4 py-2 font-semibold text-white bg-[#043e64] rounded-md hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
         >
           Schedule Appointment
         </button>

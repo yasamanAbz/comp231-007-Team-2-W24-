@@ -18,7 +18,7 @@ const AppointmentList = ({
       </h2>
       <div className="overflow-x-auto bg-white">
         <table className="min-w-full">
-          <thead className="text-white bg-gray-800">
+          <thead className="text-white bg-[#043e64]">
             <tr>
               <th className="px-4 py-2 text-left">Date</th>
               <th className="px-4 py-2 text-left">Time</th>
@@ -41,13 +41,13 @@ const AppointmentList = ({
                 <td className="px-4 py-2 text-left">{appointment.reason}</td>
                 <td className="px-4 py-2 text-center">
                   <button
-                    className="inline-flex items-center justify-center px-4 py-2 mr-2 text-base font-bold text-white bg-blue-500 rounded hover:bg-blue-700 focus:outline-none"
+                    className="inline-flex items-center justify-center px-4 py-2 mr-2 text-base font-semibold text-white bg-blue-500 rounded hover:bg-blue-700 focus:outline-none"
                     onClick={() => onAppointmentUpdate(appointment)}
                   >
                     Update
                   </button>
                   <button
-                    className="inline-flex items-center justify-center px-4 py-2 text-base font-bold text-white bg-red-500 rounded hover:bg-red-700 focus:outline-none"
+                    className="inline-flex items-center justify-center px-4 py-2 text-base font-semibold text-white bg-red-500 rounded hover:bg-red-500 focus:outline-none"
                     onClick={() => onAppointmentDelete(appointment)}
                   >
                     Delete
