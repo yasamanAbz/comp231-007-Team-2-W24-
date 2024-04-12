@@ -1,48 +1,47 @@
-const connection = require('../config/database');
+// controllers/appointmentController.js
+import mongoose from "mongoose";
+import Appointment from "../models/Appointment.js";
 
-// Controller method to handle scheduling a new appointment
-exports.createAppointment = (req, res) => {
-  const { date, time, reason } = req.body;
-
-  const query = 'INSERT INTO appointments (date, time, reason) VALUES (?, ?, ?)';
-  connection.query(query, [date, time, reason], (err, result) => {
-    if (err) {
-      console.error('Failed to schedule appointment:', err);
-      res.status(500).json({ error: 'Failed to schedule appointment' });
-      return;
-    }
-    res.status(201).json({ id: result.insertId });
-  });
+export const createAppointment = async (req, res) => {
+  try {
+    const appointment = new Appointment(req.body);
+    await appointment.save();
+    res.status(201).json(appointment);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
 };
 
-// Controller method to handle fetching upcoming appointments
-exports.getUpcomingAppointments = (req, res) => {
-  const query = 'SELECT * FROM appointments WHERE date >= CURDATE()';
-  connection.query(query, (err, results) => {
-    if (err) {
-      console.error('Failed to retrieve upcoming appointments:', err);
-      res.status(500).json({ error: 'Failed to retrieve upcoming appointments' });
-      return;
-    }
-    res.status(200).json(results);
-  });
+export const getAppointments = async (req, res) => {
+  try {
+    const appointments = await Appointment.find();
+    res.status(200).json(appointments);
+  } catch (error) {
+    res.status(404).json({ message: error.message });
+  }
 };
 
-// Controller method to handle cancelling an appointment
-exports.cancelAppointment = (req, res) => {
-  const appointmentId = req.params.id;
+export const updateAppointment = async (req, res) => {
+  const { id } = req.params;
+  const { date, time, reason, status } = req.body;
 
-  const query = 'UPDATE appointments SET status = "cancelled" WHERE id = ?';
-  connection.query(query, [appointmentId], (err, result) => {
-    if (err) {
-      console.error('Failed to cancel appointment:', err);
-      res.status(500).json({ error: 'Failed to cancel appointment' });
-      return;
-    }
-    if (result.affectedRows === 0) {
-      res.status(404).json({ error: 'Appointment not found' });
-      return;
-    }
-    res.status(204).end();
-  });
+  if (!mongoose.Types.ObjectId.isValid(id))
+    return res.status(404).send(`No appointment with id: ${id}`);
+
+  const updatedAppointment = { date, time, reason, status, _id: id };
+
+  await Appointment.findByIdAndUpdate(id, updatedAppointment, { new: true });
+
+  res.json(updatedAppointment);
+};
+
+export const deleteAppointment = async (req, res) => {
+  const { id } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(id))
+    return res.status(404).send(`No appointment with id: ${id}`);
+
+  await Appointment.findByIdAndDelete(id);
+
+  res.json({ message: "Appointment deleted successfully." });
 };
