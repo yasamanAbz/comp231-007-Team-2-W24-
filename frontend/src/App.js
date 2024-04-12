@@ -4,7 +4,7 @@ import Home from "components/Home";
 import Messaging from "components/Messaging";
 import VideoCall from "pages/VideoCall";
 import HealthTracking from "components/HealthTracking";
-import Appointments from "components/Appointments";
+import Appointments from "pages/Appointments";
 import Header from "components/Header";
 import Footer from "components/Footer";
 import { AuthProvider } from "./contexts/AuthContext";
