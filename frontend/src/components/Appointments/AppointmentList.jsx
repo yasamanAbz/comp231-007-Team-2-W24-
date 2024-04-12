@@ -42,7 +42,7 @@ const AppointmentList = ({
                 <td className="px-4 py-2 text-center">
                   <button
                     className="inline-flex items-center justify-center px-4 py-2 mr-2 text-base font-bold text-white bg-blue-500 rounded hover:bg-blue-700 focus:outline-none"
-                    onClick={() => onAppointmentUpdate(appointment._id)}
+                    onClick={() => onAppointmentUpdate(appointment)}
                   >
                     Update
                   </button>

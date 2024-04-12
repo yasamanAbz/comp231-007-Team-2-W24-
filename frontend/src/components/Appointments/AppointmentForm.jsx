@@ -1,18 +1,25 @@
-import React, { useState } from "react";
-function AppointmentForm({ onCreateAppointment }) {
-  const [date, setDate] = useState("");
-  const [time, setTime] = useState("");
-  const [reason, setReason] = useState("");
+import React, { useState, useEffect } from "react";
+function AppointmentForm({ onSubmitAppointment, selectedAppointment }) {
+  const [date, setDate] = useState(selectedAppointment?.date);
+  const [time, setTime] = useState(selectedAppointment?.time);
+  const [reason, setReason] = useState(selectedAppointment?.reason);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!date || !time || !reason) return;
-    onCreateAppointment({ date, time, reason });
+    onSubmitAppointment({ date, time, reason });
     setDate("");
     setTime("");
     setReason("");
   };
-
+  useEffect(() => {
+    // Update form fields when selectedAppointment changes
+    if (selectedAppointment) {
+      setDate(selectedAppointment.date);
+      setTime(selectedAppointment.time);
+      setReason(selectedAppointment.reason);
+    }
+  }, [selectedAppointment]);
   return (
     <div className="max-w-md p-5 mx-auto my-8 bg-white border border-gray-200 rounded-lg shadow-md">
       <h1 className="mb-6 text-2xl font-semibold text-center text-gray-800">

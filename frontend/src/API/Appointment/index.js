@@ -67,3 +67,33 @@ export const deleteAppointment = async (appointmentId) => {
     throw error; // So that you can handle it in the component
   }
 };
+export const updateAppointment = async (
+  appointmentId,
+  { date, time, reason }
+) => {
+  const endpoint = `${backendUrl}/appointments/${appointmentId}`;
+
+  try {
+    const response = await fetch(endpoint, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        // Include authorization header if your API requires authentication
+        // 'Authorization': `Bearer ${userToken}`
+      },
+      body: JSON.stringify({ date, time, reason, status: "updated" }), // Include any other fields that might need updating
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status}`);
+    }
+
+    // If the appointment is updated successfully, you might want to handle the response
+    const data = await response.json();
+    console.log("Appointment updated successfully:", data);
+    return data; // Return the updated data
+  } catch (error) {
+    console.error("Failed to update appointment:", error);
+    throw error; // Rethrow the error for handling in the component
+  }
+};
