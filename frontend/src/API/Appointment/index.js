@@ -42,3 +42,28 @@ export const getAllAppointments = () => {
       throw error; // Rethrow the error if you want to handle it in the component
     });
 };
+// API/Appointment/api.js
+
+export const deleteAppointment = async (appointmentId) => {
+  const endpoint = `${backendUrl}/appointments/${appointmentId}`;
+
+  try {
+    const response = await fetch(endpoint, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        // If you have authentication enabled, you may need to include an authorization header
+        // 'Authorization': `Bearer ${userToken}`
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status}`);
+    }
+
+    return await response.json(); // or simply return if you don't need the response body
+  } catch (error) {
+    console.error("Failed to delete appointment:", error);
+    throw error; // So that you can handle it in the component
+  }
+};

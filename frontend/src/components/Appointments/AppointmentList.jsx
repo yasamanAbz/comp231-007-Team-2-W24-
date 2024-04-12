@@ -1,21 +1,16 @@
 import React from "react";
-const AppointmentList = ({ appointments }) => {
-  const handleDelete = (id) => {
-    // Implement the delete functionality here
-    console.log(`Delete appointment with id: ${id}`);
-  };
-
-  const handleUpdate = (id) => {
-    // Implement the update functionality here
-    console.log(`Update appointment with id: ${id}`);
-  };
-
+const AppointmentList = ({
+  appointments,
+  onAppointmentUpdate,
+  onAppointmentDelete,
+}) => {
   const isPastAppointment = (appointmentDate, appointmentTime) => {
     const appointmentDateTime = new Date(
       `${appointmentDate}T${appointmentTime}`
     );
     return appointmentDateTime < new Date();
   };
+
   return (
     <div className="max-w-4xl mx-auto mt-5">
       <h2 className="mb-6 text-2xl font-semibold text-gray-800">
@@ -47,13 +42,13 @@ const AppointmentList = ({ appointments }) => {
                 <td className="px-4 py-2 text-center">
                   <button
                     className="inline-flex items-center justify-center px-4 py-2 mr-2 text-base font-bold text-white bg-blue-500 rounded hover:bg-blue-700 focus:outline-none"
-                    onClick={() => handleUpdate(appointment._id)}
+                    onClick={() => onAppointmentUpdate(appointment._id)}
                   >
                     Update
                   </button>
                   <button
                     className="inline-flex items-center justify-center px-4 py-2 text-base font-bold text-white bg-red-500 rounded hover:bg-red-700 focus:outline-none"
-                    onClick={() => handleDelete(appointment._id)}
+                    onClick={() => onAppointmentDelete(appointment)}
                   >
                     Delete
                   </button>
