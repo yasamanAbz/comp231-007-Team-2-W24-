@@ -1,13 +1,18 @@
 import React from "react";
 import AppointmentList from "components/Appointments/AppointmentList";
-// Define the HomePage component
+import AppointmentForm from "components/Appointments/AppointmentForm";
+
 const AppointmentsPage = () => {
   return (
-    <>
-      <AppointmentList />
-    </>
+    <div className="flex flex-wrap justify-between gap-10 p-10">
+      <div className="flex-1 min-w-0">
+        <AppointmentList />
+      </div>
+      <div className="flex-1 max-w-md min-w-0">
+        <AppointmentForm />
+      </div>
+    </div>
   );
 };
 
-// Export the HomePage component
 export default AppointmentsPage;

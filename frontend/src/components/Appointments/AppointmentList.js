@@ -37,7 +37,7 @@ const AppointmentList = () => {
     return appointmentDateTime < new Date();
   };
   return (
-    <div className="max-w-4xl mx-auto mt-10">
+    <div className="max-w-4xl mx-auto mt-5">
       <h2 className="mb-6 text-2xl font-semibold text-gray-800">
         Upcoming Appointments
       </h2>
