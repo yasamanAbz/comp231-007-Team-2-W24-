@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-
-function AppointmentForm({ onSchedule }) {
+function AppointmentForm({ onCreateAppointment }) {
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
   const [reason, setReason] = useState("");
@@ -8,7 +7,7 @@ function AppointmentForm({ onSchedule }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!date || !time || !reason) return;
-    onSchedule({ date, time, reason });
+    onCreateAppointment({ date, time, reason });
     setDate("");
     setTime("");
     setReason("");

@@ -1,25 +1,5 @@
-import React, { useEffect, useState } from "react";
-
-const AppointmentList = () => {
-  const backendUrl = process.env.REACT_APP_BACKEND_URL;
-
-  const [appointments, setAppointments] = useState([]);
-
-  useEffect(() => {
-    fetch(`${backendUrl}/appointments`)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Error fetching appointments");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        setAppointments(data);
-      })
-      .catch((error) => {
-        console.error("Error fetching appointments:", error);
-      });
-  }, [backendUrl]);
+import React from "react";
+const AppointmentList = ({ appointments }) => {
   const handleDelete = (id) => {
     // Implement the delete functionality here
     console.log(`Delete appointment with id: ${id}`);
