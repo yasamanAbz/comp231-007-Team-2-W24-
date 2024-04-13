@@ -9,6 +9,7 @@ const SignupForm = () => {
   const [lastName, setLastName] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
+  const [messageColor, setMessageColor] = useState("[#187000]");
   const { login } = useAuth();
 
   const handleSubmit = async (event) => {
@@ -26,7 +27,9 @@ const SignupForm = () => {
       const data = await response.json();
 
       if (response.ok) {
-        login(data.token, data.user);
+        login(data.token);
+        setMessage("User added successfully!");
+        setMessageColor("[#187000]");
         // Clear the input fields
         setEmail("");
         setFirstName("");
@@ -38,6 +41,7 @@ const SignupForm = () => {
     } catch (error) {
       console.error("Signup failed:", error);
       setMessage("Sign up failed");
+      setMessageColor("[#ff5e5e]");
     }
   };
 
@@ -56,7 +60,6 @@ const SignupForm = () => {
           placeholder="First Name"
           className="block p-2 m-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#004570]"
           value={firstName}
-          required
           onChange={(e) => setFirstName(e.target.value)}
         />
         <input
@@ -64,7 +67,6 @@ const SignupForm = () => {
           placeholder="Last Name"
           className="block p-2 m-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#004570]"
           value={lastName}
-          required
           onChange={(e) => setLastName(e.target.value)}
         />
         <input
@@ -72,7 +74,6 @@ const SignupForm = () => {
           placeholder="Password"
           className="block p-2 m-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#004570]"
           value={password}
-          required
           onChange={(e) => setPassword(e.target.value)}
         />
         <button
@@ -82,7 +83,9 @@ const SignupForm = () => {
           Sign Up
         </button>
       </form>
-      {message && <p className={`text-[#ff5e5e] text-center`}>{message}</p>}
+      {message && (
+        <p className={`text-${messageColor} text-center`}>{message}</p>
+      )}
     </>
   );
 };
