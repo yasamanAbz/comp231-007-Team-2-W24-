@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Diet Monitoring Interface</title>
+  <!-- Include CSS libraries for styling -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+
+<body>
+  <div class="container mt-5">
+    <h2 class="mb-4">Diet Monitoring Interface</h2>
+    <!-- Form for logging dietary intake -->
+    <form id="intakeForm">
+      <div class="form-group">
+        <label for="foodItem">Food Item</label>
+        <input type="text" class="form-control" id="foodItem" required>
+      </div>
+      <div class="form-group">
+        <label for="quantity">Quantity</label>
+        <input type="text" class="form-control" id="quantity" required>
+      </div>
+      <div class="form-group">
+        <label for="calories">Calories</label>
+        <input type="text" class="form-control" id="calories" required>
+      </div>
+      <div class="form-group">
+        <label for="date">Date</label>
+        <input type="date" class="form-control" id="date" required>
+      </div>
+      <!-- Optional nutritional information -->
+      <div class="form-group">
+        <label for="fat">Fat (optional)</label>
+        <input type="text" class="form-control" id="fat">
+      </div>
+      <div class="form-group">
+        <label for="protein">Protein (optional)</label>
+        <input type="text" class="form-control" id="protein">
+      </div>
+      <div class="form-group">
+        <label for="carbs">Carbohydrates (optional)</label>
+        <input type="text" class="form-control" id="carbs">
+      </div>
+      <button type="submit" class="btn btn-primary">Log Intake</button>
+    </form>
+    <hr>
+    <!-- Display for viewing intake history -->
+    <h4 class="mt-4">Intake History</h4>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Food Item</th>
+          <th scope="col">Quantity</th>
+          <th scope="col">Calories</th>
+          <th scope="col">Date</th>
+          <th scope="col">Fat</th>
+          <th scope="col">Protein</th>
+          <th scope="col">Carbohydrates</th>
+        </tr>
+      </thead>
+      <tbody id="intakeHistory">
+        <!-- Intake history data will be dynamically added here -->
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Include JavaScript libraries for functionality -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <!-- Custom JavaScript for form submission and data display -->
+  <script>
+    // Function to handle form submission
+    $('#intakeForm').submit(function (event) {
+      event.preventDefault(); // Prevent default form submission
+      // Fetch form data
+      const formData = {
+        foodItem: $('#foodItem').val(),
+        quantity: $('#quantity').val(),
+        calories: $('#calories').val(),
+        date: $('#date').val(),
+        fat: $('#fat').val(),
+        protein: $('#protein').val(),
+        carbs: $('#carbs').val()
+      };
+      // AJAX POST request to API endpoint for logging intake
+      $.ajax({
+        url: 'https://your-api-url/logintake',
+        method: 'POST',
+        data: formData,
+        success: function (response) {
+          // Handle success response, e.g., display a success message
+          console.log('Intake logged successfully:', response);
+          // Clear form fields
+          $('#intakeForm')[0].reset();
+          // Refresh intake history display
+          fetchIntakeHistory();
+        },
+        error: function (xhr, status, error) {
+          // Handle error response, e.g., display an error message
+          console.error('Error logging intake:', error);
+        }
+      });
+    });
+
+    // Function to fetch and display intake history
+    function fetchIntakeHistory() {
+      // AJAX GET request to API endpoint for retrieving history
+      $.ajax({
+        url: 'https://your-api-url/history',
+        method: 'GET',
+        success: function (response) {
+          // Handle success response, e.g., display intake history in table
+          console.log('Intake history retrieved successfully:', response);
+          // Clear existing data in the table
+          $('#intakeHistory').empty();
+          // Append new data to the table
+          response.forEach(entry => {
+            $('#intakeHistory').append(`
+              <tr>
+                <td>${entry.foodItem}</td>
+                <td>${entry.quantity}</td>
+                <td>${entry.calories}</td>
+                <td>${entry.date}</td>
+                <td>${entry.fat || '-'}</td>
+                <td>${entry.protein || '-'}</td>
+                <td>${entry.carbs || '-'}</td>
+              </tr>
+            `);
+          });
+        },
+        error: function (xhr, status, error) {
+          // Handle error response, e.g., display an error message
+          console.error('Error retrieving intake history:', error);
+        }
+      });
+    }
+
+    // Initial fetch of intake history on page load
+    fetchIntakeHistory();
+  </script>
+</body>
+
+</html>
