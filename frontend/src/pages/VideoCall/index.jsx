@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from "react";
 import VideoCall from "components/VideoCall";
+import { useAuth } from "../../contexts/AuthContext";
 
 const VideoCallPage = () => {
   const backendUrl = process.env.REACT_APP_BACKEND_URL;
   const [token, setToken] = useState("");
   const [isConnected, setIsConnected] = useState(false);
+  const { user } = useAuth();
 
   const handleConnectClick = () => {
     setIsConnected(true);
   };
   const generateToken = () => {
-    fetch(`${backendUrl}/livekit/token?room=my-room&identity=user1`)
+    fetch(`${backendUrl}/livekit/token?room=my-room&identity=${user.email}`)
       .then((response) => response.json())
       .then((data) => setToken(data.token))
       .catch((error) => console.error("Error fetching token:", error));

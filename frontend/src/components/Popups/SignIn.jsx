@@ -44,6 +44,7 @@ const SignInForm = () => {
           placeholder="Email"
           className="block p-2 m-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#004570]"
           value={email}
+          required
           onChange={(e) => setEmail(e.target.value)}
         />
         <input
@@ -51,6 +52,7 @@ const SignInForm = () => {
           placeholder="Password"
           className="block p-2 m-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#004570]"
           value={password}
+          required
           onChange={(e) => setPassword(e.target.value)}
         />
         <button
