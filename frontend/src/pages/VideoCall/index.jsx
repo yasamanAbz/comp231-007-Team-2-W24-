@@ -12,7 +12,7 @@ const VideoCallPage = () => {
     setIsConnected(true);
   };
   const generateToken = () => {
-    fetch(`${backendUrl}/livekit/token?room=my-room&identity=${user.email}`)
+    fetch(`${backendUrl}/livekit/token?room=my-room&identity=${user?.email}`)
       .then((response) => response.json())
       .then((data) => setToken(data.token))
       .catch((error) => console.error("Error fetching token:", error));
